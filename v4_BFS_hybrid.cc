@@ -304,7 +304,7 @@ struct Graph {
           //   std::swap(curr_frontier, next_frontier);
           }
           #pragma omp barrier
-          // if(TD to BU) collect frontiers
+          // if(BU to TD) collect frontiers
           if(!is_prev_top_down && is_top_down){
             #pragma omp for nowait
             for(uint32_t v = 0; v < N; v++){
@@ -314,7 +314,7 @@ struct Graph {
             }
             frontier_starting_index = __atomic_fetch_add(&next_frontier_size, local_frontier_size, __ATOMIC_SEQ_CST);
           }
-          //if(BU to TD) convert frontiers to bitmap
+          //if(TD to BU) convert frontiers to bitmap
           else if(is_prev_top_down && !is_top_down){
             #pragma omp for nowait
             for(uint32_t v = 0; v < N; v++){
